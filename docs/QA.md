@@ -1,5 +1,11 @@
 # Verification record
 
+## Disabled Keihan provider preparation (latest follow-up)
+
+100 automated tests pass, including 26 added synthetic adapter/contract tests. The added tests exercise: default zero-network behavior, explicit authorization/configuration gates, single flight and request rate control, sanitized HTTP/JSON/size failures, missing delay and unknown direction, strict source clock/calendar, day-qualified IDs, duplicate numeric/string block collisions, missing or old/mismatched timetable, malformed departure sequences, 25-hour service, unverified grid provenance, no type guessing, stale cache re-evaluation, failed-table non-reuse, source rollback after network errors, and explicit rejection of reference-only output by the boarding engine. No real railway payloads were copied or requested. Configuration tests use a fabricated permission record and synthetic.invalid with an injected fetch function; they do not prove source permission or connectivity.
+
+The production endpoint remains null. The backend preparation modules are outside the static build. A public data-policy explanation was updated while retaining unavailable/live-incomplete status. Actual release SHA, deployment and asset hash comparison are recorded after merge on the PR and final delivery, independently of the earlier release entries below. Actual iPhone and source reconciliation remain unverified.
+
 Date: 2026-10-13. Host: DESKTOP-9CFUBB3. Node.js 24.14.1. All runtime timestamps are recorded separately from any train data (there is no real train dataset).
 
 ## Automated

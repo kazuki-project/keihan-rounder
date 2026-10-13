@@ -2,453 +2,609 @@ TAP version 13
 # Subtest: valid direct train is selected
 ok 1 - valid direct train is selected
   ---
-  duration_ms: 2.3601
+  duration_ms: 3.2409
   type: 'test'
   ...
 # Subtest: origin pass-through excluded
 ok 2 - origin pass-through excluded
   ---
-  duration_ms: 0.6237
+  duration_ms: 0.794
   type: 'test'
   ...
 # Subtest: destination pass-through excluded
 ok 3 - destination pass-through excluded
   ---
-  duration_ms: 0.1941
+  duration_ms: 0.3563
   type: 'test'
   ...
 # Subtest: reverse direction excluded
 ok 4 - reverse direction excluded
   ---
-  duration_ms: 0.1263
+  duration_ms: 0.2381
   type: 'test'
   ...
 # Subtest: short turn excluded
 ok 5 - short turn excluded
   ---
-  duration_ms: 0.1545
+  duration_ms: 0.2847
   type: 'test'
   ...
 # Subtest: same station and unknown station produce no journey
 ok 6 - same station and unknown station produce no journey
   ---
-  duration_ms: 0.2415
+  duration_ms: 0.317
   type: 'test'
   ...
 # Subtest: pickup/dropoff restrictions honored
 ok 7 - pickup/dropoff restrictions honored
   ---
-  duration_ms: 0.2451
+  duration_ms: 0.2656
   type: 'test'
   ...
 # Subtest: missing or unknown boarding rights reject feed
 ok 8 - missing or unknown boarding rights reject feed
   ---
-  duration_ms: 0.2214
+  duration_ms: 0.2216
   type: 'test'
   ...
 # Subtest: observed departed and unknown boarding status excluded
 ok 9 - observed departed and unknown boarding status excluded
   ---
-  duration_ms: 0.2043
+  duration_ms: 0.223
   type: 'test'
   ...
 # Subtest: liner and reservation/unknown ticket rules excluded
 ok 10 - liner and reservation/unknown ticket rules excluded
   ---
-  duration_ms: 0.2597
+  duration_ms: 0.2403
   type: 'test'
   ...
 # Subtest: same class with different real stop list is not generalized
 ok 11 - same class with different real stop list is not generalized
   ---
-  duration_ms: 0.1764
+  duration_ms: 0.1661
   type: 'test'
   ...
 # Subtest: Nakanoshima branch cannot directly reach Kitahama
 ok 12 - Nakanoshima branch cannot directly reach Kitahama
   ---
-  duration_ms: 0.2458
+  duration_ms: 0.2456
   type: 'test'
   ...
 # Subtest: Yodoyabashi branch cannot directly reach Watanabebashi
 ok 13 - Yodoyabashi branch cannot directly reach Watanabebashi
   ---
-  duration_ms: 0.1172
+  duration_ms: 0.1157
   type: 'test'
   ...
 # Subtest: branch transfer at Temmabashi is explicit
 ok 14 - branch transfer at Temmabashi is explicit
   ---
-  duration_ms: 0.1633
+  duration_ms: 0.1684
   type: 'test'
   ...
 # Subtest: Kamo through service needs no transfer at Sanjo
 ok 15 - Kamo through service needs no transfer at Sanjo
   ---
-  duration_ms: 0.1294
+  duration_ms: 0.123
   type: 'test'
   ...
 # Subtest: transfer equality accepted, one second short rejected
 ok 16 - transfer equality accepted, one second short rejected
   ---
-  duration_ms: 0.2059
+  duration_ms: 0.1979
   type: 'test'
   ...
 # Subtest: unknown platform never assumes zero transfer time
 ok 17 - unknown platform never assumes zero transfer time
   ---
-  duration_ms: 0.153
+  duration_ms: 0.1271
   type: 'test'
   ...
 # Subtest: cancelled connection invalidates journey
 ok 18 - cancelled connection invalidates journey
   ---
-  duration_ms: 0.1282
+  duration_ms: 0.1119
   type: 'test'
   ...
 # Subtest: later express can arrive before earlier local
 ok 19 - later express can arrive before earlier local
   ---
-  duration_ms: 0.1294
+  duration_ms: 0.1267
   type: 'test'
   ...
 # Subtest: delay is not ETA and does not resurrect past departures
 ok 20 - delay is not ETA and does not resurrect past departures
   ---
-  duration_ms: 0.0866
+  duration_ms: 0.0868
   type: 'test'
   ...
 # Subtest: official predictions retained separately from schedule
 ok 21 - official predictions retained separately from schedule
   ---
-  duration_ms: 0.1583
+  duration_ms: 0.1706
   type: 'test'
   ...
 # Subtest: app prediction requires explanation
 ok 22 - app prediction requires explanation
   ---
-  duration_ms: 0.0914
+  duration_ms: 0.1036
   type: 'test'
   ...
 # Subtest: cancelled train excluded
 ok 23 - cancelled train excluded
   ---
-  duration_ms: 0.0984
+  duration_ms: 0.0948
   type: 'test'
   ...
 # Subtest: changed destination uses new complete stop list
 ok 24 - changed destination uses new complete stop list
   ---
-  duration_ms: 0.4088
+  duration_ms: 0.4743
   type: 'test'
   ...
 # Subtest: stale source is stale even if HTTP fetch was fresh
 ok 25 - stale source is stale even if HTTP fetch was fresh
   ---
-  duration_ms: 0.135
+  duration_ms: 0.1314
   type: 'test'
   ...
 # Subtest: expiry at exact instant excludes feed
 ok 26 - expiry at exact instant excludes feed
   ---
-  duration_ms: 0.0837
+  duration_ms: 0.0708
   type: 'test'
   ...
 # Subtest: future fetch time and expired timetable revision fail closed
 ok 27 - future fetch time and expired timetable revision fail closed
   ---
-  duration_ms: 0.116
+  duration_ms: 0.103
   type: 'test'
   ...
 # Subtest: licensing and source must be explicit
 ok 28 - licensing and source must be explicit
   ---
-  duration_ms: 0.0694
+  duration_ms: 0.0617
   type: 'test'
   ...
 # Subtest: serviceDates enforce weekday, holiday and temporary exceptions
 ok 29 - serviceDates enforce weekday, holiday and temporary exceptions
   ---
-  duration_ms: 0.1441
+  duration_ms: 0.1342
   type: 'test'
   ...
 # Subtest: overnight trip keeps prior service date
 ok 30 - overnight trip keeps prior service date
   ---
-  duration_ms: 0.1196
+  duration_ms: 0.1007
   type: 'test'
   ...
 # Subtest: JST service day is independent of device timezone
 ok 31 - JST service day is independent of device timezone
   ---
-  duration_ms: 0.051
+  duration_ms: 0.0452
   type: 'test'
   ...
 # Subtest: invalid sequence, unknown class, duplicate trip IDs rejected
 ok 32 - invalid sequence, unknown class, duplicate trip IDs rejected
   ---
-  duration_ms: 0.1888
+  duration_ms: 0.1612
   type: 'test'
   ...
 # Subtest: timetable mode cannot carry realtime delay or predictions
 ok 33 - timetable mode cannot carry realtime delay or predictions
   ---
-  duration_ms: 0.1453
+  duration_ms: 0.1136
   type: 'test'
   ...
 # Subtest: minimum boarding buffer applied
 ok 34 - minimum boarding buffer applied
   ---
-  duration_ms: 0.0849
+  duration_ms: 0.0709
   type: 'test'
   ...
 # Subtest: chronological but physically contradictory stop sequence rejected
 ok 35 - chronological but physically contradictory stop sequence rejected
   ---
-  duration_ms: 0.0771
+  duration_ms: 0.0688
   type: 'test'
   ...
 # Subtest: different train classes use their provided stop sequences
 ok 36 - different train classes use their provided stop sequences
   ---
-  duration_ms: 0.2571
+  duration_ms: 0.2367
   type: 'test'
   ...
 # Subtest: unknown arrival is not treated as zero or departure
 ok 37 - unknown arrival is not treated as zero or departure
   ---
-  duration_ms: 0.108
+  duration_ms: 0.0924
   type: 'test'
   ...
 # Subtest: inconsistent prediction sequence rejected
 ok 38 - inconsistent prediction sequence rejected
   ---
-  duration_ms: 0.1083
+  duration_ms: 0.1124
   type: 'test'
   ...
 # Subtest: no future-date timetable is used before becoming effective
 ok 39 - no future-date timetable is used before becoming effective
   ---
-  duration_ms: 0.0755
+  duration_ms: 0.0754
   type: 'test'
   ...
 # Subtest: source update unknown is unavailable
 ok 40 - source update unknown is unavailable
   ---
-  duration_ms: 0.0811
+  duration_ms: 0.0705
   type: 'test'
   ...
 # Subtest: malformed nested records fail closed without throwing
 ok 41 - malformed nested records fail closed without throwing
   ---
-  duration_ms: 0.166
+  duration_ms: 0.1561
+  type: 'test'
+  ...
+# Subtest: reference data never satisfies the boarding feed contract or creates candidates
+ok 42 - reference data never satisfies the boarding feed contract or creates candidates
+  ---
+  duration_ms: 2.1723
+  type: 'test'
+  ...
+# Subtest: missing, negative, malformed and ambiguous delays remain unknown; explicit zero survives
+ok 43 - missing, negative, malformed and ambiguous delays remain unknown; explicit zero survives
+  ---
+  duration_ms: 0.2186
+  type: 'test'
+  ...
+# Subtest: only documented direction values normalize; missing and unknown are never down
+ok 44 - only documented direction values normalize; missing and unknown are never down
+  ---
+  duration_ms: 0.1474
+  type: 'test'
+  ...
+# Subtest: source timestamp requires valid calendar, clock and full explicit JST digits
+ok 45 - source timestamp requires valid calendar, clock and full explicit JST digits
+  ---
+  duration_ms: 0.0819
+  type: 'test'
+  ...
+# Subtest: freshness comes from source time, never current retrieval time
+ok 46 - freshness comes from source time, never current retrieval time
+  ---
+  duration_ms: 0.0924
+  type: 'test'
+  ...
+# Subtest: missing/unverified service day cannot establish a trip identity or timetable join
+ok 47 - missing/unverified service day cannot establish a trip identity or timetable join
+  ---
+  duration_ms: 0.6047
+  type: 'test'
+  ...
+# Subtest: service date is part of ID and never inferred from local weekday or raw block alone
+ok 48 - service date is part of ID and never inferred from local weekday or raw block alone
+  ---
+  duration_ms: 0.1608
+  type: 'test'
+  ...
+# Subtest: duplicate numeric and string live block IDs fail closed
+ok 49 - duplicate numeric and string live block IDs fail closed
+  ---
+  duration_ms: 0.0848
+  type: 'test'
+  ...
+# Subtest: duplicate timetable block IDs fail closed instead of map overwrite
+ok 50 - duplicate timetable block IDs fail closed instead of map overwrite
+  ---
+  duration_ms: 0.1053
+  type: 'test'
+  ...
+# Subtest: missing timetable joins retain position reference only and no schedule
+ok 51 - missing timetable joins retain position reference only and no schedule
+  ---
+  duration_ms: 0.1181
+  type: 'test'
+  ...
+# Subtest: old, future, different service-day or missing timetable is never used for joins
+ok 52 - old, future, different service-day or missing timetable is never used for joins
+  ---
+  duration_ms: 0.1402
+  type: 'test'
+  ...
+# Subtest: invalid times, missing departure, duplicate station or reverse sequence invalidate join
+ok 53 - invalid times, missing departure, duplicate station or reverse sequence invalidate join
+  ---
+  duration_ms: 0.2214
+  type: 'test'
+  ...
+# Subtest: 25-hour departures use the attested service day; 30:00 is rejected
+ok 54 - 25-hour departures use the attested service day; 30:00 is rejected
+  ---
+  duration_ms: 0.0732
+  type: 'test'
+  ...
+# Subtest: legacy grid mapping stays explicitly unverified and cannot establish boarding
+ok 55 - legacy grid mapping stays explicitly unverified and cannot establish boarding
+  ---
+  duration_ms: 0.1348
+  type: 'test'
+  ...
+# Subtest: type missing stays unknown; no inferred limited express or liner substitution
+ok 56 - type missing stays unknown; no inferred limited express or liner substitution
+  ---
+  duration_ms: 0.1079
+  type: 'test'
+  ...
+# Subtest: default disabled provider makes zero fetches, including repeated refresh
+ok 57 - default disabled provider makes zero fetches, including repeated refresh
+  ---
+  duration_ms: 0.2353
+  type: 'test'
+  ...
+# Subtest: permission, limits, approved origins and day-contract gates cannot be omitted
+ok 58 - permission, limits, approved origins and day-contract gates cannot be omitted
+  ---
+  duration_ms: 0.4485
+  type: 'test'
+  ...
+# Subtest: service day resolver is mandatory and configuration mutations do not enable provider
+ok 59 - service day resolver is mandatory and configuration mutations do not enable provider
+  ---
+  duration_ms: 0.0795
+  type: 'test'
+  ...
+# Subtest: authorized synthetic transport is single-flight, bounded, no-store and no redirects
+ok 60 - authorized synthetic transport is single-flight, bounded, no-store and no redirects
+  ---
+  duration_ms: 15.8801
+  type: 'test'
+  ...
+# Subtest: cached sources expire despite refresh within a permitted long minimum interval
+ok 61 - cached sources expire despite refresh within a permitted long minimum interval
+  ---
+  duration_ms: 0.7283
+  type: 'test'
+  ...
+# Subtest: failed timetable fetch never reuses the earlier successful schedule
+ok 62 - failed timetable fetch never reuses the earlier successful schedule
+  ---
+  duration_ms: 0.6058
+  type: 'test'
+  ...
+# Subtest: upstream errors are sanitized and failures are rate-limited without automatic retries
+ok 63 - upstream errors are sanitized and failures are rate-limited without automatic retries
+  ---
+  duration_ms: 0.2114
+  type: 'test'
+  ...
+# Subtest: invalid HTTP, non-JSON, oversized and malformed bodies fail closed
+ok 64 - invalid HTTP, non-JSON, oversized and malformed bodies fail closed
+  ---
+  duration_ms: 1.2288
+  type: 'test'
+  ...
+# Subtest: production endpoint remains null and static build source does not copy server adapter
+ok 65 - production endpoint remains null and static build source does not copy server adapter
+  ---
+  duration_ms: 8.6195
+  type: 'test'
+  ...
+# Subtest: malformed context, policy and nested JSON fail safely without throwing
+ok 66 - malformed context, policy and nested JSON fail safely without throwing
+  ---
+  duration_ms: 0.2833
+  type: 'test'
+  ...
+# Subtest: source regression is rejected after a transport failure without resetting watermark
+ok 67 - source regression is rejected after a transport failure without resetting watermark
+  ---
+  duration_ms: 0.4889
   type: 'test'
   ...
 # Subtest: independent QA overnight terminal beyond next 06:00 is unavailable
-ok 42 - independent QA overnight terminal beyond next 06:00 is unavailable
+ok 68 - independent QA overnight terminal beyond next 06:00 is unavailable
   ---
-  duration_ms: 1.9596
+  duration_ms: 1.8053
   type: 'test'
   ...
 # Subtest: all scheduled/predicted events at every stop enforce the exclusive 06:00 boundary
-ok 43 - all scheduled/predicted events at every stop enforce the exclusive 06:00 boundary
+ok 69 - all scheduled/predicted events at every stop enforce the exclusive 06:00 boundary
   ---
-  duration_ms: 1.9822
+  duration_ms: 2.5645
   type: 'test'
   ...
 # Subtest: all scheduled/predicted events reject timestamps before service midnight
-ok 44 - all scheduled/predicted events reject timestamps before service midnight
+ok 70 - all scheduled/predicted events reject timestamps before service midnight
   ---
-  duration_ms: 0.2505
+  duration_ms: 0.268
   type: 'test'
   ...
 # Subtest: service midnight and instant before next 06:00 remain valid
-ok 45 - service midnight and instant before next 06:00 remain valid
+ok 71 - service midnight and instant before next 06:00 remain valid
   ---
-  duration_ms: 0.4727
+  duration_ms: 0.4337
   type: 'test'
   ...
 # Subtest: valid 23:58 to 00:15 crossing remains a journey with next-day label
-ok 46 - valid 23:58 to 00:15 crossing remains a journey with next-day label
+ok 72 - valid 23:58 to 00:15 crossing remains a journey with next-day label
   ---
-  duration_ms: 10.2444
+  duration_ms: 10.9707
   type: 'test'
   ...
 # Subtest: ordered chronology still rejects intermediate reversal inside the service window
-ok 47 - ordered chronology still rejects intermediate reversal inside the service window
+ok 73 - ordered chronology still rejects intermediate reversal inside the service window
   ---
-  duration_ms: 0.2382
+  duration_ms: 0.2863
   type: 'test'
   ...
 # Subtest: absolute trip has one real calendar date, not multiple selectable windows
-ok 48 - absolute trip has one real calendar date, not multiple selectable windows
+ok 74 - absolute trip has one real calendar date, not multiple selectable windows
   ---
-  duration_ms: 0.2445
+  duration_ms: 0.1957
   type: 'test'
   ...
 # Subtest: time labels distinguish prior day, year boundary, unknown and remote dates in JST
-ok 49 - time labels distinguish prior day, year boundary, unknown and remote dates in JST
+ok 75 - time labels distinguish prior day, year boundary, unknown and remote dates in JST
   ---
-  duration_ms: 0.2859
+  duration_ms: 0.2807
   type: 'test'
   ...
 # Subtest: single train cannot reverse from Nakanoshima branch toward Kitahama
-ok 50 - single train cannot reverse from Nakanoshima branch toward Kitahama
+ok 76 - single train cannot reverse from Nakanoshima branch toward Kitahama
   ---
-  duration_ms: 0.2259
+  duration_ms: 0.2293
   type: 'test'
   ...
 # Subtest: app adoption path preserves cancellation against sequential older source response
-ok 51 - app adoption path preserves cancellation against sequential older source response
+ok 77 - app adoption path preserves cancellation against sequential older source response
   ---
-  duration_ms: 1.0853
+  duration_ms: 1.0509
   type: 'test'
   ...
 # Subtest: same version cancellation contradiction fails closed even at same observedAt
-ok 52 - same version cancellation contradiction fails closed even at same observedAt
+ok 78 - same version cancellation contradiction fails closed even at same observedAt
   ---
-  duration_ms: 0.7209
+  duration_ms: 0.7012
   type: 'test'
   ...
 # Subtest: same snapshot with later HTTP fetch is accepted without inventing newer source version
-ok 53 - same snapshot with later HTTP fetch is accepted without inventing newer source version
+ok 79 - same snapshot with later HTTP fetch is accepted without inventing newer source version
   ---
-  duration_ms: 0.4976
+  duration_ms: 0.5227
   type: 'test'
   ...
 # Subtest: lower revision cannot use newer timestamp to revive a cancelled trip
-ok 54 - lower revision cannot use newer timestamp to revive a cancelled trip
+ok 80 - lower revision cannot use newer timestamp to revive a cancelled trip
   ---
-  duration_ms: 0.5221
+  duration_ms: 0.4425
   type: 'test'
   ...
 # Subtest: newer revision recovers after rejected rollback
-ok 55 - newer revision recovers after rejected rollback
+ok 81 - newer revision recovers after rejected rollback
   ---
-  duration_ms: 1.5033
+  duration_ms: 0.8331
   type: 'test'
   ...
 # Subtest: authorized source switch accepts its own revision and remembers old source watermark
-ok 56 - authorized source switch accepts its own revision and remembers old source watermark
+ok 82 - authorized source switch accepts its own revision and remembers old source watermark
   ---
-  duration_ms: 0.7378
+  duration_ms: 0.7535
   type: 'test'
   ...
 # Subtest: next service date permits revision reset when source timestamp advances
-ok 57 - next service date permits revision reset when source timestamp advances
+ok 83 - next service date permits revision reset when source timestamp advances
   ---
-  duration_ms: 0.735
+  duration_ms: 0.6867
   type: 'test'
   ...
 # Subtest: future snapshot service date cannot reset version while retaining old source timestamp
-ok 58 - future snapshot service date cannot reset version while retaining old source timestamp
+ok 84 - future snapshot service date cannot reset version while retaining old source timestamp
   ---
-  duration_ms: 0.3088
+  duration_ms: 0.3169
   type: 'test'
   ...
 # Subtest: network failure does not clear accepted source watermark
-ok 59 - network failure does not clear accepted source watermark
+ok 85 - network failure does not clear accepted source watermark
   ---
-  duration_ms: 0.3365
+  duration_ms: 0.3468
   type: 'test'
   ...
 # Subtest: new SW install reloads static assets and online fetch revalidates HTTP cache
-ok 60 - new SW install reloads static assets and online fetch revalidates HTTP cache
+ok 86 - new SW install reloads static assets and online fetch revalidates HTTP cache
   ---
-  duration_ms: 3.9284
+  duration_ms: 3.7303
   type: 'test'
   ...
 # Subtest: API and off-origin requests are never intercepted or cached
-ok 61 - API and off-origin requests are never intercepted or cached
+ok 87 - API and off-origin requests are never intercepted or cached
   ---
-  duration_ms: 1.0129
+  duration_ms: 1.1838
   type: 'test'
   ...
 # Subtest: offline shell request falls back to its saved shell only
-ok 62 - offline shell request falls back to its saved shell only
+ok 88 - offline shell request falls back to its saved shell only
   ---
-  duration_ms: 1.3401
+  duration_ms: 1.8965
   type: 'test'
   ...
 # Subtest: line filters include shared junction stations
-ok 63 - line filters include shared junction stations
+ok 89 - line filters include shared junction stations
   ---
-  duration_ms: 0.5721
+  duration_ms: 0.5288
   type: 'test'
   ...
 # Subtest: favorites, order, swapped route, theme survive reload
-ok 64 - favorites, order, swapped route, theme survive reload
+ok 90 - favorites, order, swapped route, theme survive reload
   ---
-  duration_ms: 0.5906
+  duration_ms: 0.5984
   type: 'test'
   ...
 # Subtest: delete all favorites stays deleted
-ok 65 - delete all favorites stays deleted
+ok 91 - delete all favorites stays deleted
   ---
-  duration_ms: 0.075
+  duration_ms: 0.1005
   type: 'test'
   ...
 # Subtest: storage failure returns warning and default state
-ok 66 - storage failure returns warning and default state
+ok 92 - storage failure returns warning and default state
   ---
-  duration_ms: 0.0929
+  duration_ms: 0.1062
   type: 'test'
   ...
 # Subtest: corrupt preferences recover safely
-ok 67 - corrupt preferences recover safely
+ok 93 - corrupt preferences recover safely
   ---
-  duration_ms: 0.1232
+  duration_ms: 0.1745
   type: 'test'
   ...
 # Subtest: unconfigured adapter never contacts any server
-ok 68 - unconfigured adapter never contacts any server
+ok 94 - unconfigured adapter never contacts any server
   ---
-  duration_ms: 0.1387
+  duration_ms: 0.1497
   type: 'test'
   ...
 # Subtest: cross-origin provider disallowed on client
-ok 69 - cross-origin provider disallowed on client
+ok 95 - cross-origin provider disallowed on client
   ---
-  duration_ms: 0.0707
+  duration_ms: 0.0699
   type: 'test'
   ...
 # Subtest: network and HTTP errors are explicit
-ok 70 - network and HTTP errors are explicit
+ok 96 - network and HTTP errors are explicit
   ---
-  duration_ms: 0.1767
+  duration_ms: 0.1796
   type: 'test'
   ...
 # Subtest: invalid response never becomes live
-ok 71 - invalid response never becomes live
+ok 97 - invalid response never becomes live
   ---
-  duration_ms: 0.2798
+  duration_ms: 0.2849
   type: 'test'
   ...
 # Subtest: service worker uses static allowlist and excludes API data
-ok 72 - service worker uses static allowlist and excludes API data
+ok 98 - service worker uses static allowlist and excludes API data
   ---
-  duration_ms: 3.8958
+  duration_ms: 3.8299
   type: 'test'
   ...
 # Subtest: manifest defines relative scope, standalone and required icon sizes
-ok 73 - manifest defines relative scope, standalone and required icon sizes
+ok 99 - manifest defines relative scope, standalone and required icon sizes
   ---
-  duration_ms: 0.4254
+  duration_ms: 0.4959
   type: 'test'
   ...
 # Subtest: built app does not ship fixtures
-ok 74 - built app does not ship fixtures
+ok 100 - built app does not ship fixtures
   ---
-  duration_ms: 1.9687
+  duration_ms: 2.3801
   type: 'test'
   ...
-1..74
-# tests 74
+1..100
+# tests 100
 # suites 0
-# pass 74
+# pass 100
 # fail 0
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 281.6307
+# duration_ms 349.0916

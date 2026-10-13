@@ -1,5 +1,7 @@
 # Progress and resumption
 
+Latest preparation: `feature/keihan-provider-preparation` adds a disabled server-only fetch/normalization module based on the user's old TrainHUD field contract. Old project read only; no old raw data/logs/settings copied, no source request, backend deployment or timer. 100 synthetic/unit tests pass. See KEIHAN_ADAPTER.md for exact permission, source semantics, complete-trip, durable ordering and hosting prerequisites. Public PWA still has no live or timetable feed; the source policy now acknowledges the prior technical success without claiming current authorized connectivity. Publish this preparation through Draft PR, normal merge and Pages verification; do not enable it merely because synthetic checks pass.
+
 2026-10-13. Full 17-section specification received. Original room app and existing repositories were not changed.
 
 - Workspace: `C:\Users\owner\Documents\Codex\2026-10-13\task\keihan-rounder`
