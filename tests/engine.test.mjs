@@ -5,7 +5,7 @@ const NOW=Date.parse('2026-10-13T12:00:00+09:00');
 const iso=min=>new Date(NOW+min*60000).toISOString();
 const stop=(id,min)=>({stationId:id,pickup:true,dropoff:true,scheduledArrival:iso(min),scheduledDeparture:iso(min),boardingStatus:'scheduled'});
 const trip=(id='one',stops=[stop('KH21',5),stop('KH24',15)],extra={})=>({id,type:'特急',destination:stops.at(-1).stationId,status:'scheduled',ticketPolicy:'standard',serviceDates:['2026-10-13'],stops,...extra});
-const feed=(trips=[trip()],extra={})=>({schemaVersion:1,mode:'realtime',source:{name:'SYNTHETIC TEST ONLY',url:'https://example.test',license:'test-only',redistributionApproved:true},fetchedAt:iso(0),observedAt:iso(0),expiresAt:iso(5),maxAgeSeconds:300,validFrom:'2026-08-24',validThrough:'2026-12-31',trips,...extra});
+const feed=(trips=[trip()],extra={})=>({schemaVersion:1,serviceDate:'2026-10-13',version:1,mode:'realtime',source:{id:'synthetic-test',name:'SYNTHETIC TEST ONLY',url:'https://example.test',license:'test-only',redistributionApproved:true},fetchedAt:iso(0),observedAt:iso(0),expiresAt:iso(5),maxAgeSeconds:300,validFrom:'2026-08-24',validThrough:'2026-12-31',trips,...extra});
 const find=(f,from='KH21',to='KH24',options={})=>findJourneys(f,from,to,{now:NOW,...options});
 test('valid direct train is selected',()=>{assert.deepEqual(validateFeed(feed()),[]);assert.equal(find(feed()).length,1);});
 test('origin pass-through excluded',()=>assert.equal(find(feed([trip('a',[stop('KH20',5),stop('KH24',15)])])).length,0));

@@ -1,7 +1,9 @@
 import {STATIONS,station,direction} from './stations.mjs';
 import {load,save} from './storage.mjs';
-import {fetchFeed,CONFIG} from './adapter.mjs';
+import {createFeedController,CONFIG} from './adapter.mjs';
 import {findJourneys,feedState,STATES} from './engine.mjs';
+import {formatTrainTime} from './time-display.mjs';
+const feedController=createFeedController();
 const $=id=>document.getElementById(id), name=id=>station(id)?.name??'不明';
 let storage;try{storage=window.localStorage;}catch{storage={getItem(){throw new Error();},setItem(){throw new Error();}};}
 const loaded=load(storage);let prefs=loaded.preferences,editing=false,picking='from',filter='all',feed=null,state=STATES.UNAVAILABLE,lastAttempt=null,busy=false,message=null;
@@ -42,8 +44,8 @@ function renderData(){
  for(const j of journeys){
   const card=text('article','','journey'),first=j.legs[0];card.append(text('span',first.type,'train-type'),text('h3',`${name(first.destination)}行`));
   card.append(text('p',j.transfers?`${name(first.to)}で乗り換え（移動時間は要確認）`:'乗り換えなし','fine'));
-  const grid=text('div','','journey-grid');for(const [title,event] of [['発車',j.departure],[`${name(prefs.route[1])} 到着`,j.arrival]]){const col=text('div');col.append(text('p',`${title} · ${basisLabel(event.basis)}`,'fine'),text('p',clock(event.time),'time'));grid.append(col);}card.append(grid);
-  for(const l of j.legs){const detail=text('div');detail.append(text('p',`${name(l.from)} → ${name(l.to)}｜${l.type} ${name(l.destination)}行`,'fine'));detail.append(text('span',l.delayMinutes===undefined?'遅延情報なし':l.delayMinutes===0?'取得データ上は遅延なし':`遅延 +${l.delayMinutes}分`,'delay'));detail.append(text('p',`ダイヤ：発 ${clock(Date.parse(l.scheduledDeparture))} ／ 着 ${clock(Date.parse(l.scheduledArrival))}`,'fine'));detail.append(text('p',`のりば：${l.platform??'情報なし'} ／ 現在位置：${l.position??'情報なし'}`,'fine'));if(l.notice)detail.append(text('p',l.notice,'warning'));if(l.departure.explanation||l.arrival.explanation)detail.append(text('p',l.departure.explanation||l.arrival.explanation,'fine'));card.append(detail);}
+  const grid=text('div','','journey-grid');for(const [title,event] of [['発車',j.departure],[`${name(prefs.route[1])} 到着`,j.arrival]]){const col=text('div');col.append(text('p',`${title} · ${basisLabel(event.basis)}`,'fine'),text('p',formatTrainTime(event.time),'time'));grid.append(col);}card.append(grid);
+  for(const l of j.legs){const detail=text('div');detail.append(text('p',`${name(l.from)} → ${name(l.to)}｜${l.type} ${name(l.destination)}行`,'fine'));detail.append(text('span',l.delayMinutes===undefined?'遅延情報なし':l.delayMinutes===0?'取得データ上は遅延なし':`遅延 +${l.delayMinutes}分`,'delay'));detail.append(text('p',`ダイヤ：発 ${formatTrainTime(Date.parse(l.scheduledDeparture))} ／ 着 ${formatTrainTime(Date.parse(l.scheduledArrival))}`,'fine'));detail.append(text('p',`のりば：${l.platform??'情報なし'} ／ 現在位置：${l.position??'情報なし'}`,'fine'));if(l.notice)detail.append(text('p',l.notice,'warning'));if(l.departure.explanation||l.arrival.explanation)detail.append(text('p',l.departure.explanation||l.arrival.explanation,'fine'));card.append(detail);}
   card.append(text('p','表示時刻に基づく到着順です。ダイヤ時刻は実際の到着を保証しません。','fine'));$('results').append(card);
  }
  $('updated').textContent=feed?`データ最終更新：${stamp(Date.parse(feed.observedAt??feed.fetchedAt))}／取得：${stamp(Date.parse(feed.fetchedAt))}`:'運行データ最終更新：未取得'+(lastAttempt?` · 接続確認 ${clock(lastAttempt)}`:'');
@@ -59,6 +61,6 @@ for(const side of ['from','to'])$(side).onclick=()=>{picking=side;filter='all';$
 $('station-search').oninput=renderStations;$('line-filters').onclick=e=>{const b=e.target.closest('button');if(!b)return;filter=b.dataset.line;for(const el of $('line-filters').children)el.setAttribute('aria-pressed',String(el===b));renderStations();};
 $('swap').onclick=()=>setRoute([...prefs.route].reverse());$('save-route').onclick=()=>{if(prefs.favorites.length>=30){toast('区間は30件まで登録できます');return;}prefs.favorites.push([...prefs.route]);persist();render();toast('お気に入りに追加しました');};$('edit-favorites').onclick=()=>{editing=!editing;render();};
 $('settings-open').onclick=()=>$('settings-dialog').showModal();$('theme').onchange=e=>{prefs.theme=e.target.value;persist();render();};$('boarding').onchange=e=>{prefs.boardingMinutes=Number(e.target.value);persist();render();};
-async function refresh(){if(busy)return;if(CONFIG.endpoint&&lastAttempt&&Date.now()-lastAttempt<CONFIG.minRefreshMs){toast('取得間隔を空けています。1分後に再試行してください');return;}busy=true;state=STATES.LOADING;message=null;renderData();lastAttempt=Date.now();const result=await fetchFeed();feed=result.feed;state=result.state;message=result.message;busy=false;renderData();}
+async function refresh(){if(busy)return;if(CONFIG.endpoint&&lastAttempt&&Date.now()-lastAttempt<CONFIG.minRefreshMs){toast('取得間隔を空けています。1分後に再試行してください');return;}busy=true;state=STATES.LOADING;message=null;renderData();lastAttempt=Date.now();const result=await feedController.refresh();feed=result.feed;state=result.state;message=result.message;busy=false;renderData();}
 $('refresh').onclick=refresh;window.addEventListener('offline',renderData);window.addEventListener('online',()=>{renderData();if(CONFIG.endpoint)refresh();});document.addEventListener('visibilitychange',()=>{if(!document.hidden){renderData();if(CONFIG.endpoint)refresh();}});setInterval(()=>{if(!document.hidden)renderData();},30000);
 warn(loaded.error);render();refresh();if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>toast('オフライン機能を有効にできませんでした。オンラインで利用できます。'));
