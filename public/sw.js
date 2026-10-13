@@ -1,5 +1,5 @@
-const CACHE='keihan-shell-v4';
-const ASSETS=['./','./index.html','./styles.css','./src/app.mjs','./src/stations.mjs','./src/storage.mjs','./src/engine.mjs','./src/adapter.mjs','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/maskable-512.png','./icons/apple-touch-icon.png','./data-policy.html'];
+const CACHE='keihan-shell-v5';
+const ASSETS=['./','./index.html','./styles.css','./src/app.mjs','./src/stations.mjs','./src/storage.mjs','./src/engine.mjs','./src/adapter.mjs','./src/feed-guard.mjs','./src/time-display.mjs','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/maskable-512.png','./icons/apple-touch-icon.png','./data-policy.html'];
 const urls=new Set(ASSETS.map(p=>new URL(p,self.registration.scope).href));
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS.map(url=>new Request(url,{cache:'reload'}))))));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('keihan-shell-')&&k!==CACHE).map(k=>caches.delete(k))))));

@@ -1,15 +1,26 @@
 import {validStation,stationPath} from './stations.mjs';
 export const STATES = Object.freeze({LIVE:'normal',LOADING:'loading',STALE:'stale',ERROR:'error',UNAVAILABLE:'unavailable',TIMETABLE:'timetable'});
-const iso = value => typeof value==='string' && /(?:Z|[+-]\d\d:\d\d)$/.test(value) && Number.isFinite(Date.parse(value));
+const calendarDate = value => typeof value==='string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && Number.isFinite(Date.parse(`${value}T00:00:00Z`)) && new Date(`${value}T00:00:00Z`).toISOString().slice(0,10)===value;
+const iso = value => typeof value==='string' && calendarDate(value.slice(0,10)) && /(?:Z|[+-]\d\d:\d\d)$/.test(value) && Number.isFinite(Date.parse(value));
 export const jstDate = epoch => new Date(epoch+9*3600000).toISOString().slice(0,10);
+function serviceWindow(trip) {
+  if(!Array.isArray(trip.serviceDates)||trip.serviceDates.length!==1||!calendarDate(trip.serviceDates[0]))return null;
+  const start=Date.parse(`${trip.serviceDates[0]}T00:00:00+09:00`);
+  return {start,end:start+30*3600000};
+}
 export function validateFeed(feed) {
   const errors=[];
   if(!feed || feed.schemaVersion!==1) return ['Unsupported schema'];
   if(!['realtime','timetable'].includes(feed.mode)) errors.push('Invalid mode');
   if(!feed.source?.name || !/^https:\/\//.test(feed.source?.url??'') || !feed.source?.license || feed.source?.redistributionApproved!==true) errors.push('Source and redistribution permission required');
+  if(typeof feed.source?.id!=='string'||!feed.source.id||!calendarDate(feed.serviceDate)||!Number.isSafeInteger(feed.version)||feed.version<0) errors.push('Source identity, snapshot service date and version required');
+  if(calendarDate(feed.serviceDate)&&iso(feed.observedAt)){
+    const snapshotStart=Date.parse(`${feed.serviceDate}T00:00:00+09:00`),observed=Date.parse(feed.observedAt);
+    if(observed<snapshotStart||observed>=snapshotStart+30*3600000)errors.push('Source observation outside snapshot service date');
+  }
   if(!iso(feed.fetchedAt)||!iso(feed.observedAt)||!iso(feed.expiresAt)||Date.parse(feed.expiresAt)<=Date.parse(feed.fetchedAt)||Date.parse(feed.observedAt)>Date.parse(feed.fetchedAt)+60000) errors.push('Invalid freshness');
   if(!Number.isFinite(feed.maxAgeSeconds)||feed.maxAgeSeconds<=0) errors.push('Provider freshness limit required');
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(feed.validFrom??'')||!/^\d{4}-\d{2}-\d{2}$/.test(feed.validThrough??'')||feed.validThrough<feed.validFrom) errors.push('Effective date range required');
+  if(!calendarDate(feed.validFrom)||!calendarDate(feed.validThrough)||feed.validThrough<feed.validFrom) errors.push('Effective date range required');
   if(!Array.isArray(feed.trips)) return [...errors,'Trips required'];
   const ids=new Set();
   for(const t of feed.trips) {
@@ -17,10 +28,16 @@ export function validateFeed(feed) {
     if(!t.id||ids.has(t.id)) errors.push('Duplicate or missing trip ID'); ids.add(t.id);
     if(!['快速特急','特急','通勤快急','快速急行','急行','通勤準急','準急','区間急行','普通','ライナー'].includes(t.type) || !validStation(t.destination) || !['scheduled','cancelled','changed'].includes(t.status)) errors.push('Invalid trip metadata');
     if(!['standard','reservation-required','unknown'].includes(t.ticketPolicy)) errors.push('Ticket policy required');
-    if(!Array.isArray(t.serviceDates)||!t.serviceDates.length||t.serviceDates.some(d=>!/^\d{4}-\d{2}-\d{2}$/.test(d))) errors.push('Explicit service dates required');
+    const window=serviceWindow(t);
+    if(!window) errors.push('One explicit service date required for an absolute trip instance');
     if(!Array.isArray(t.stops)||t.stops.length<2||t.stops.some(s=>!s||typeof s!=='object')) { errors.push('Ordered stops required'); continue; }
     let previous=-Infinity, previousPredicted=-Infinity; const seen=new Set();
     for(const s of t.stops) {
+      for(const field of ['scheduledArrival','scheduledDeparture','predictedArrival','predictedDeparture']) {
+        if(s[field]===undefined&&field.startsWith('predicted'))continue;
+        const timestamp=Date.parse(s[field]);
+        if(!window||!iso(s[field])||timestamp<window.start||timestamp>=window.end)errors.push('Stop time outside service day window');
+      }
       const arr=Date.parse(s.scheduledArrival), dep=Date.parse(s.scheduledDeparture);
       if(!validStation(s.stationId)||seen.has(s.stationId)||typeof s.pickup!=='boolean'||typeof s.dropoff!=='boolean'||!iso(s.scheduledArrival)||!iso(s.scheduledDeparture)||arr<previous||dep<arr) errors.push('Invalid ordered stop');
       seen.add(s.stationId); previous=dep;
@@ -36,6 +53,7 @@ export function validateFeed(feed) {
     if(t.stops.at(-1).stationId!==t.destination) errors.push('Destination must match current stop list');
     const path=stationPath(t.stops[0].stationId,t.destination);let pathIndex=-1;
     for(const s of t.stops){const index=path.indexOf(s.stationId);if(index<=pathIndex)errors.push('Contradictory route topology');pathIndex=index;}
+    if(path.includes('KH51')&&(path.includes('KH01')||path.includes('KH02')))errors.push('Unsupported same-train branch reversal');
     if(t.delayMinutes!==undefined && (!Number.isFinite(t.delayMinutes)||t.delayMinutes<0 || feed.mode==='timetable')) errors.push('Invalid delay');
     if(t.status==='changed'&&!t.notice) errors.push('Changed trip requires notice');
   }
@@ -58,9 +76,8 @@ function activeTrips(feed,now) {
   const today=jstDate(now), yesterday=jstDate(now-86400000);
   return feed.trips.filter(t=>t.status!=='cancelled' && t.ticketPolicy==='standard' && t.type!=='ライナー' && t.serviceDates.some(d=>{
     if(d!==today&&d!==yesterday)return false;
-    const start=Date.parse(`${d}T00:00:00+09:00`),first=Date.parse(t.stops[0].scheduledDeparture);
-    // A service date may extend past midnight, but not indefinitely into the next day.
-    return first>=start&&first<start+30*3600000;
+    // validateFeed has checked every supplied scheduled/predicted event against this date.
+    return true;
   }));
 }
 function leg(trip,from,to,after,now,mode) {
