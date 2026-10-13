@@ -13,11 +13,12 @@ export function validateFeed(feed) {
   if(!Array.isArray(feed.trips)) return [...errors,'Trips required'];
   const ids=new Set();
   for(const t of feed.trips) {
+    if(!t||typeof t!=='object'){errors.push('Invalid trip record');continue;}
     if(!t.id||ids.has(t.id)) errors.push('Duplicate or missing trip ID'); ids.add(t.id);
     if(!['快速特急','特急','通勤快急','快速急行','急行','通勤準急','準急','区間急行','普通','ライナー'].includes(t.type) || !validStation(t.destination) || !['scheduled','cancelled','changed'].includes(t.status)) errors.push('Invalid trip metadata');
     if(!['standard','reservation-required','unknown'].includes(t.ticketPolicy)) errors.push('Ticket policy required');
     if(!Array.isArray(t.serviceDates)||!t.serviceDates.length||t.serviceDates.some(d=>!/^\d{4}-\d{2}-\d{2}$/.test(d))) errors.push('Explicit service dates required');
-    if(!Array.isArray(t.stops)||t.stops.length<2) { errors.push('Ordered stops required'); continue; }
+    if(!Array.isArray(t.stops)||t.stops.length<2||t.stops.some(s=>!s||typeof s!=='object')) { errors.push('Ordered stops required'); continue; }
     let previous=-Infinity, previousPredicted=-Infinity; const seen=new Set();
     for(const s of t.stops) {
       const arr=Date.parse(s.scheduledArrival), dep=Date.parse(s.scheduledDeparture);

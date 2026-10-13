@@ -47,3 +47,4 @@ test('unknown arrival is not treated as zero or departure',()=>{const f=feed();d
 test('inconsistent prediction sequence rejected',()=>{const f=feed();Object.assign(f.trips[0].stops[0],{predictedArrival:iso(18),predictedDeparture:iso(19),predictionBasis:'official'});assert.equal(find(f).length,0);});
 test('no future-date timetable is used before becoming effective',()=>assert.equal(find(feed(undefined,{validFrom:'2026-10-14'})).length,0));
 test('source update unknown is unavailable',()=>{const f=feed();delete f.observedAt;assert.equal(feedState(f,NOW),'unavailable');});
+test('malformed nested records fail closed without throwing',()=>{const badStops=feed();badStops.trips[0].stops=[null,null];for(const f of [feed([null]),badStops]){assert.doesNotThrow(()=>find(f));assert.equal(find(f).length,0);}});
