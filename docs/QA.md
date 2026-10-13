@@ -29,4 +29,10 @@ Chrome through supported CUA browser interface, http://127.0.0.1:4173/:
 
 Real iPhone Safari, home-screen installation, iOS storage retention and true offline lifecycle were not exercised. PWA/Service Worker configuration and cache isolation have automated checks; do not claim a full offline device test. Live source comparison cannot run because no source is connected.
 
-Public URL and deployment checks are recorded in PROGRESS after deployment. Browser actions on localhost are distinct from production checks.
+## Public release verification
+
+Initial deployment completed 2026-10-13 04:17:22 UTC via https://github.com/kazuki-project/keihan-rounder/actions/runs/38345658273 . Public URL https://kazuki-project.github.io/keihan-rounder/ was then opened in Chrome and visibly rendered the actual application over HTTPS.
+
+From the public URL, selected Kyobashi→Yodoyabashi, reversed it, saved Yodoyabashi→Kyobashi, reloaded, confirmed restored section and favorite, removed that test favorite, and selected Hirakatashi→Kuzuha. The normal screen showed no trains and data update “未取得”. At mobile width 390, document scrollWidth=375 (no horizontal overflow). No captured console errors/warnings. Screenshot: [evidence/public-mobile.jpg](../evidence/public-mobile.jpg).
+
+The release follow-up adds malformed nested-record fail-closed coverage (53 tests total) and SW cache version 2. `node scripts/check-deployment.mjs` verifies 14 public assets against local build SHA256 and writes evidence/deployment.json; a successful run after follow-up deployment is the final asset verification. The release log is updated independently to avoid treating an expected URL as proof of publication.
