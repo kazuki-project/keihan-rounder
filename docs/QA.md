@@ -38,3 +38,5 @@ From the public URL, selected Kyobashi→Yodoyabashi, reversed it, saved Yodoyab
 The release follow-up adds malformed nested-record fail-closed coverage (53 tests total) and SW cache version 2. `node scripts/check-deployment.mjs` verifies 14 public assets against local build SHA256 and writes evidence/deployment.json; a successful run after follow-up deployment is the final asset verification. The release log is updated independently to avoid treating an expected URL as proof of publication.
 
 The added malformed-record test initially failed in its fixture builder before reaching the engine. The fixture was corrected to inject null stops after creating a valid trip; the full 53-test suite then passed. This was not a production observation.
+
+Post-publication same-station selection testing found that the rejection toast was outside the modal's top layer and therefore not visible to its user. The selection already failed safely. Feedback was moved inside the station dialog and re-tested in the browser: the visible message now says 出発駅と目的駅は別の駅を選んでください. Source syntax and build checks passed. SW cache advanced to v3 for this UI fix.
