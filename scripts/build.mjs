@@ -1,0 +1,11 @@
+import {mkdir,cp,writeFile,readFile} from 'node:fs/promises';
+import {deflateSync} from 'node:zlib';
+await mkdir('dist',{recursive:true});await cp('public','dist',{recursive:true});await cp('src','dist/src',{recursive:true});await mkdir('dist/icons',{recursive:true});
+// Original code-generated app icon; no third-party marks or image assets.
+function crc32(buf){let c=0xffffffff;for(const b of buf){c^=b;for(let i=0;i<8;i++)c=(c&1)?0xedb88320^(c>>>1):c>>>1;}return(c^0xffffffff)>>>0;}
+function chunk(type,data){const t=Buffer.from(type),length=Buffer.alloc(4),crc=Buffer.alloc(4);length.writeUInt32BE(data.length);crc.writeUInt32BE(crc32(Buffer.concat([t,data])));return Buffer.concat([length,t,data,crc]);}
+function png(size){const rows=Buffer.alloc(size*(size*4+1));for(let y=0;y<size;y++){for(let x=0;x<size;x++){const nx=x/size,ny=y/size;let color=[16,61,56];const train=nx>.29&&nx<.71&&ny>.23&&ny<.71;const window=nx>.35&&nx<.65&&ny>.31&&ny<.46;const lights=((nx-.38)**2+(ny-.60)**2<.0014)||((nx-.62)**2+(ny-.60)**2<.0014);const tracks=ny>.72&&ny<.82&&(Math.abs(nx-(.36-(ny-.72)*.5))<.017||Math.abs(nx-(.64+(ny-.72)*.5))<.017);if(train||tracks)color=[230,246,235];if(window)color=[16,61,56];if(lights)color=[227,165,64];const i=y*(size*4+1)+1+x*4;rows.set([...color,255],i);}}const ihdr=Buffer.alloc(13);ihdr.writeUInt32BE(size,0);ihdr.writeUInt32BE(size,4);ihdr[8]=8;ihdr[9]=6;return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',ihdr),chunk('IDAT',deflateSync(rows)),chunk('IEND',Buffer.alloc(0))]);}
+for(const [name,size] of [['icon-192',192],['icon-512',512],['maskable-512',512],['apple-touch-icon',180]])await writeFile(`dist/icons/${name}.png`,png(size));
+await writeFile('dist/icons/icon.svg','<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#103d38"/><rect x="28" y="22" width="44" height="49" rx="8" fill="#e6f6eb"/><path d="M35 32h30v15H35z" fill="#103d38"/><circle cx="38" cy="59" r="4" fill="#e3a540"/><circle cx="62" cy="59" r="4" fill="#e3a540"/><path d="M36 73l-5 10m33-10 5 10" stroke="#e6f6eb" stroke-width="4"/></svg>');
+const index=await readFile('dist/index.html','utf8');if(!index.includes('未接続'))throw new Error('Missing disclosure');
+console.log('Built static PWA in dist/ (no network dependencies).');
