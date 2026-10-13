@@ -1,0 +1,280 @@
+TAP version 13
+# Subtest: valid direct train is selected
+ok 1 - valid direct train is selected
+  ---
+  duration_ms: 2.0237
+  type: 'test'
+  ...
+# Subtest: origin pass-through excluded
+ok 2 - origin pass-through excluded
+  ---
+  duration_ms: 0.1306
+  type: 'test'
+  ...
+# Subtest: destination pass-through excluded
+ok 3 - destination pass-through excluded
+  ---
+  duration_ms: 0.1377
+  type: 'test'
+  ...
+# Subtest: reverse direction excluded
+ok 4 - reverse direction excluded
+  ---
+  duration_ms: 0.1031
+  type: 'test'
+  ...
+# Subtest: short turn excluded
+ok 5 - short turn excluded
+  ---
+  duration_ms: 0.1025
+  type: 'test'
+  ...
+# Subtest: same station and unknown station produce no journey
+ok 6 - same station and unknown station produce no journey
+  ---
+  duration_ms: 0.087
+  type: 'test'
+  ...
+# Subtest: pickup/dropoff restrictions honored
+ok 7 - pickup/dropoff restrictions honored
+  ---
+  duration_ms: 0.6607
+  type: 'test'
+  ...
+# Subtest: missing or unknown boarding rights reject feed
+ok 8 - missing or unknown boarding rights reject feed
+  ---
+  duration_ms: 0.1347
+  type: 'test'
+  ...
+# Subtest: observed departed and unknown boarding status excluded
+ok 9 - observed departed and unknown boarding status excluded
+  ---
+  duration_ms: 0.1511
+  type: 'test'
+  ...
+# Subtest: liner and reservation/unknown ticket rules excluded
+ok 10 - liner and reservation/unknown ticket rules excluded
+  ---
+  duration_ms: 0.1829
+  type: 'test'
+  ...
+# Subtest: same class with different real stop list is not generalized
+ok 11 - same class with different real stop list is not generalized
+  ---
+  duration_ms: 0.1381
+  type: 'test'
+  ...
+# Subtest: Nakanoshima branch cannot directly reach Kitahama
+ok 12 - Nakanoshima branch cannot directly reach Kitahama
+  ---
+  duration_ms: 0.1594
+  type: 'test'
+  ...
+# Subtest: Yodoyabashi branch cannot directly reach Watanabebashi
+ok 13 - Yodoyabashi branch cannot directly reach Watanabebashi
+  ---
+  duration_ms: 0.0721
+  type: 'test'
+  ...
+# Subtest: branch transfer at Temmabashi is explicit
+ok 14 - branch transfer at Temmabashi is explicit
+  ---
+  duration_ms: 0.08
+  type: 'test'
+  ...
+# Subtest: Kamo through service needs no transfer at Sanjo
+ok 15 - Kamo through service needs no transfer at Sanjo
+  ---
+  duration_ms: 0.0716
+  type: 'test'
+  ...
+# Subtest: transfer equality accepted, one second short rejected
+ok 16 - transfer equality accepted, one second short rejected
+  ---
+  duration_ms: 0.0959
+  type: 'test'
+  ...
+# Subtest: unknown platform never assumes zero transfer time
+ok 17 - unknown platform never assumes zero transfer time
+  ---
+  duration_ms: 0.0596
+  type: 'test'
+  ...
+# Subtest: cancelled connection invalidates journey
+ok 18 - cancelled connection invalidates journey
+  ---
+  duration_ms: 0.0749
+  type: 'test'
+  ...
+# Subtest: later express can arrive before earlier local
+ok 19 - later express can arrive before earlier local
+  ---
+  duration_ms: 0.0681
+  type: 'test'
+  ...
+# Subtest: delay is not ETA and does not resurrect past departures
+ok 20 - delay is not ETA and does not resurrect past departures
+  ---
+  duration_ms: 0.0531
+  type: 'test'
+  ...
+# Subtest: official predictions retained separately from schedule
+ok 21 - official predictions retained separately from schedule
+  ---
+  duration_ms: 0.0806
+  type: 'test'
+  ...
+# Subtest: app prediction requires explanation
+ok 22 - app prediction requires explanation
+  ---
+  duration_ms: 0.0569
+  type: 'test'
+  ...
+# Subtest: cancelled train excluded
+ok 23 - cancelled train excluded
+  ---
+  duration_ms: 0.0403
+  type: 'test'
+  ...
+# Subtest: changed destination uses new complete stop list
+ok 24 - changed destination uses new complete stop list
+  ---
+  duration_ms: 0.0602
+  type: 'test'
+  ...
+# Subtest: stale source is stale even if HTTP fetch was fresh
+ok 25 - stale source is stale even if HTTP fetch was fresh
+  ---
+  duration_ms: 0.0699
+  type: 'test'
+  ...
+# Subtest: expiry at exact instant excludes feed
+ok 26 - expiry at exact instant excludes feed
+  ---
+  duration_ms: 0.0438
+  type: 'test'
+  ...
+# Subtest: future fetch time and expired timetable revision fail closed
+ok 27 - future fetch time and expired timetable revision fail closed
+  ---
+  duration_ms: 0.0448
+  type: 'test'
+  ...
+# Subtest: licensing and source must be explicit
+ok 28 - licensing and source must be explicit
+  ---
+  duration_ms: 0.0341
+  type: 'test'
+  ...
+# Subtest: serviceDates enforce weekday, holiday and temporary exceptions
+ok 29 - serviceDates enforce weekday, holiday and temporary exceptions
+  ---
+  duration_ms: 0.0612
+  type: 'test'
+  ...
+# Subtest: overnight trip keeps prior service date
+ok 30 - overnight trip keeps prior service date
+  ---
+  duration_ms: 0.0674
+  type: 'test'
+  ...
+# Subtest: JST service day is independent of device timezone
+ok 31 - JST service day is independent of device timezone
+  ---
+  duration_ms: 0.0231
+  type: 'test'
+  ...
+# Subtest: invalid sequence, unknown class, duplicate trip IDs rejected
+ok 32 - invalid sequence, unknown class, duplicate trip IDs rejected
+  ---
+  duration_ms: 0.057
+  type: 'test'
+  ...
+# Subtest: timetable mode cannot carry realtime delay or predictions
+ok 33 - timetable mode cannot carry realtime delay or predictions
+  ---
+  duration_ms: 0.0679
+  type: 'test'
+  ...
+# Subtest: minimum boarding buffer applied
+ok 34 - minimum boarding buffer applied
+  ---
+  duration_ms: 0.0723
+  type: 'test'
+  ...
+# Subtest: favorites, order, swapped route, theme survive reload
+ok 35 - favorites, order, swapped route, theme survive reload
+  ---
+  duration_ms: 0.9531
+  type: 'test'
+  ...
+# Subtest: delete all favorites stays deleted
+ok 36 - delete all favorites stays deleted
+  ---
+  duration_ms: 0.0767
+  type: 'test'
+  ...
+# Subtest: storage failure returns warning and default state
+ok 37 - storage failure returns warning and default state
+  ---
+  duration_ms: 0.1087
+  type: 'test'
+  ...
+# Subtest: corrupt preferences recover safely
+ok 38 - corrupt preferences recover safely
+  ---
+  duration_ms: 0.1131
+  type: 'test'
+  ...
+# Subtest: unconfigured adapter never contacts any server
+ok 39 - unconfigured adapter never contacts any server
+  ---
+  duration_ms: 0.1271
+  type: 'test'
+  ...
+# Subtest: cross-origin provider disallowed on client
+ok 40 - cross-origin provider disallowed on client
+  ---
+  duration_ms: 0.0768
+  type: 'test'
+  ...
+# Subtest: network and HTTP errors are explicit
+ok 41 - network and HTTP errors are explicit
+  ---
+  duration_ms: 0.1924
+  type: 'test'
+  ...
+# Subtest: invalid response never becomes live
+ok 42 - invalid response never becomes live
+  ---
+  duration_ms: 0.2049
+  type: 'test'
+  ...
+# Subtest: service worker uses static allowlist and excludes API data
+ok 43 - service worker uses static allowlist and excludes API data
+  ---
+  duration_ms: 3.6742
+  type: 'test'
+  ...
+# Subtest: manifest defines relative scope, standalone and required icon sizes
+ok 44 - manifest defines relative scope, standalone and required icon sizes
+  ---
+  duration_ms: 0.4403
+  type: 'test'
+  ...
+# Subtest: built app does not ship fixtures
+ok 45 - built app does not ship fixtures
+  ---
+  duration_ms: 1.9055
+  type: 'test'
+  ...
+1..45
+# tests 45
+# suites 0
+# pass 45
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 169.5174

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.tgz
+*.tar.gz
+.env*
+!.env.example
+evidence/*.png
+.sites-*

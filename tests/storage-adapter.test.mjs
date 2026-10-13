@@ -1,0 +1,13 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {load,save,defaults,normalize} from '../src/storage.mjs';import {fetchFeed} from '../src/adapter.mjs';import {readFile,readdir} from 'node:fs/promises';
+test('favorites, order, swapped route, theme survive reload',()=>{let value=null;const storage={getItem:()=>value,setItem:(_,v)=>value=v};const p=defaults();p.favorites.reverse();p.route=['KH24','KH21'];p.theme='dark';assert.equal(save(storage,p),null);assert.deepEqual(load(storage).preferences,p);});
+test('delete all favorites stays deleted',()=>assert.equal(normalize({...defaults(),favorites:[]}).favorites.length,0));
+test('storage failure returns warning and default state',()=>{const s={getItem(){throw Error();},setItem(){throw Error();}};assert.ok(load(s).error);assert.ok(save(s,defaults()));});
+test('corrupt preferences recover safely',()=>{assert.deepEqual(load({getItem:()=>'{bad'}).preferences,defaults());const p=normalize({version:1,route:['X','Y'],favorites:[['X','Y'],['KH21','KH24'],['KH21','KH24']]});assert.equal(p.favorites.length,1);});
+test('unconfigured adapter never contacts any server',async()=>{const r=await fetchFeed({fetcher:()=>{throw Error('must not be called');}});assert.equal(r.state,'unavailable');assert.equal(r.feed,null);});
+test('cross-origin provider disallowed on client',async()=>assert.equal((await fetchFeed({endpoint:'https://example.test'})).state,'unavailable'));
+test('network and HTTP errors are explicit',async()=>{for(const fetcher of [async()=>{throw Error();},async()=>({ok:false})]){const r=await fetchFeed({endpoint:'/api/trains',fetcher});assert.equal(r.state,'error');assert.equal(r.feed,null);}});
+test('invalid response never becomes live',async()=>assert.equal((await fetchFeed({endpoint:'/api/trains',fetcher:async()=>({ok:true,json:async()=>({})})})).state,'unavailable'));
+test('service worker uses static allowlist and excludes API data',async()=>{const sw=await readFile('public/sw.js','utf8');assert.ok(sw.includes('!urls.has(url.href)'));assert.ok(!sw.includes('/api/trains'));assert.ok(!sw.includes('skipWaiting'));});
+test('manifest defines relative scope, standalone and required icon sizes',async()=>{const m=JSON.parse(await readFile('public/manifest.webmanifest','utf8'));assert.equal(m.display,'standalone');assert.equal(m.scope,'./');assert.ok(m.icons.some(i=>i.sizes==='192x192'));assert.ok(m.icons.some(i=>i.purpose==='maskable'));});
+test('built app does not ship fixtures',async()=>{const files=await readdir('dist',{recursive:true});assert.ok(!files.some(p=>p.includes('test')||p.includes('fixture')));const app=await readFile('dist/src/adapter.mjs','utf8');assert.ok(app.includes('endpoint:null'));});
