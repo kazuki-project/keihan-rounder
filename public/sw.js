@@ -1,4 +1,4 @@
-const CACHE='keihan-shell-v2';
+const CACHE='keihan-shell-v3';
 const ASSETS=['./','./index.html','./styles.css','./src/app.mjs','./src/stations.mjs','./src/storage.mjs','./src/engine.mjs','./src/adapter.mjs','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/maskable-512.png','./icons/apple-touch-icon.png','./data-policy.html'];
 const urls=new Set(ASSETS.map(p=>new URL(p,self.registration.scope).href));
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS))));

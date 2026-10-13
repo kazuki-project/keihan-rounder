@@ -4,7 +4,7 @@
 
 - Workspace: `C:\Users\owner\Documents\Codex\2026-10-13\task\keihan-rounder`
 - Repo: https://github.com/kazuki-project/keihan-rounder
-- Working branch: `feature/initial-app`
+- Implementation branch: `feature/initial-app`; release QA: `feature/release-verification`; final UI fix: `feature/modal-feedback`
 - Implementation PR: https://github.com/kazuki-project/keihan-rounder/pull/1 (normal merge completed 2026-10-13 04:16:33 UTC)
 - Initial main was created by GitHub's auto_init README; no direct main push or force push.
 - Buildless runtime, dependency-free build/test tooling; PWA/UI/preferences/isolated routing implemented.
@@ -17,7 +17,7 @@ GitHub CLI authentication works under approved network execution. The sandbox-on
 
 A private Sites project was registered while exploring publishing, ID `appgprj_6acdac489ee08191b5df714176f90b56`. It is NOT deployed, has no uploaded source, and is not the intended delivery URL. Its short-lived credential was never saved/output. GitHub Pages was chosen to preserve feature→PR→merge workflow. `.openai/hosting.json` preserves that unused registration to avoid accidental duplicate creation; do not treat its expected URL as live.
 
-Follow-up feature/release-verification records public QA and hardens malformed records. Its normal PR merge and Pages deployment must succeed, followed by `node scripts/check-deployment.mjs`. This creates evidence/deployment.json with exact timestamp and asset hashes.
+Follow-up feature/release-verification (PR #2) records public QA and hardens malformed records; it was normally merged after CI success. The final feature/modal-feedback fix puts the same-station rejection explanation inside its modal and bumps SW to v3. After its normal merge and deployment, run `node scripts/check-deployment.mjs`; evidence/deployment.json records the exact timestamp and asset hashes locally. The final PR body/final task response records this post-deployment outcome without repeatedly redeploying evidence-only documentation.
 
 After those release checks, independent implementation work is complete for this preparation release. Remaining blocker: an authorized data source/contract. Resume by confirming permitted operational data or timetable scope, retention, redistribution, commercial-use conditions, keys and limits. No autonomous background development is scheduled; do not imply continued execution while awaiting this external dependency. Actual iPhone verification also remains open.
 
