@@ -1,4 +1,4 @@
-import {validStation} from './stations.mjs';
+import {validStation,stationPath} from './stations.mjs';
 export const STATES = Object.freeze({LIVE:'normal',LOADING:'loading',STALE:'stale',ERROR:'error',UNAVAILABLE:'unavailable',TIMETABLE:'timetable'});
 const iso = value => typeof value==='string' && /(?:Z|[+-]\d\d:\d\d)$/.test(value) && Number.isFinite(Date.parse(value));
 export const jstDate = epoch => new Date(epoch+9*3600000).toISOString().slice(0,10);
@@ -33,6 +33,8 @@ export function validateFeed(feed) {
       if(feed.mode==='realtime'&&!['scheduled','open','departed','unknown'].includes(s.boardingStatus)) errors.push('Realtime boarding status required');
     }
     if(t.stops.at(-1).stationId!==t.destination) errors.push('Destination must match current stop list');
+    const path=stationPath(t.stops[0].stationId,t.destination);let pathIndex=-1;
+    for(const s of t.stops){const index=path.indexOf(s.stationId);if(index<=pathIndex)errors.push('Contradictory route topology');pathIndex=index;}
     if(t.delayMinutes!==undefined && (!Number.isFinite(t.delayMinutes)||t.delayMinutes<0 || feed.mode==='timetable')) errors.push('Invalid delay');
     if(t.status==='changed'&&!t.notice) errors.push('Changed trip requires notice');
   }

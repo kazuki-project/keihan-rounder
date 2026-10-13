@@ -1,5 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {load,save,defaults,normalize} from '../src/storage.mjs';import {fetchFeed} from '../src/adapter.mjs';import {readFile,readdir} from 'node:fs/promises';
+import {STATIONS,station} from '../src/stations.mjs';
+test('line filters include shared junction stations',()=>{assert.ok(station('KH03').lines.includes('中之島線'));assert.ok(station('KH40').lines.includes('鴨東線'));assert.equal(STATIONS.filter(s=>s.lines.includes('中之島線')).length,5);assert.equal(STATIONS.filter(s=>s.lines.includes('鴨東線')).length,3);});
 test('favorites, order, swapped route, theme survive reload',()=>{let value=null;const storage={getItem:()=>value,setItem:(_,v)=>value=v};const p=defaults();p.favorites.reverse();p.route=['KH24','KH21'];p.theme='dark';assert.equal(save(storage,p),null);assert.deepEqual(load(storage).preferences,p);});
 test('delete all favorites stays deleted',()=>assert.equal(normalize({...defaults(),favorites:[]}).favorites.length,0));
 test('storage failure returns warning and default state',()=>{const s={getItem(){throw Error();},setItem(){throw Error();}};assert.ok(load(s).error);assert.ok(save(s,defaults()));});

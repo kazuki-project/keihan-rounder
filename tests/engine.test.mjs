@@ -41,3 +41,9 @@ test('JST service day is independent of device timezone',()=>assert.equal(jstDat
 test('invalid sequence, unknown class, duplicate trip IDs rejected',()=>{const f=feed([trip('same'),trip('same')]);assert.ok(validateFeed(f).length);const bad=feed();bad.trips[0].stops.reverse();assert.ok(validateFeed(bad).length);bad.trips[0].type='unknown';assert.equal(find(bad).length,0);});
 test('timetable mode cannot carry realtime delay or predictions',()=>{const f=feed(undefined,{mode:'timetable'});assert.equal(feedState(f,NOW),'timetable');f.trips[0].delayMinutes=9;assert.ok(validateFeed(f).length);});
 test('minimum boarding buffer applied',()=>assert.equal(find(feed(),'KH21','KH24',{boardingMinutes:6}).length,0));
+test('chronological but physically contradictory stop sequence rejected',()=>{const f=feed([trip('zigzag',[stop('KH21',5),stop('KH24',10),stop('KH23',15)])]);assert.ok(validateFeed(f).includes('Contradictory route topology'));});
+test('different train classes use their provided stop sequences',()=>{for(const type of ['特急','快速急行','準急','普通']){const f=feed([trip('a',undefined,{type})]);assert.equal(find(f).length,1);}});
+test('unknown arrival is not treated as zero or departure',()=>{const f=feed();delete f.trips[0].stops[1].scheduledArrival;assert.equal(find(f).length,0);});
+test('inconsistent prediction sequence rejected',()=>{const f=feed();Object.assign(f.trips[0].stops[0],{predictedArrival:iso(18),predictedDeparture:iso(19),predictionBasis:'official'});assert.equal(find(f).length,0);});
+test('no future-date timetable is used before becoming effective',()=>assert.equal(find(feed(undefined,{validFrom:'2026-10-14'})).length,0));
+test('source update unknown is unavailable',()=>{const f=feed();delete f.observedAt;assert.equal(feedState(f,NOW),'unavailable');});

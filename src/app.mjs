@@ -47,11 +47,11 @@ function renderData(){
   card.append(text('p','表示時刻に基づく到着順です。ダイヤ時刻は実際の到着を保証しません。','fine'));$('results').append(card);
  }
  $('updated').textContent=feed?`データ最終更新：${stamp(Date.parse(feed.observedAt??feed.fetchedAt))}／取得：${stamp(Date.parse(feed.fetchedAt))}`:'運行データ最終更新：未取得'+(lastAttempt?` · 接続確認 ${clock(lastAttempt)}`:'');
- if(feed){$('source-details').append(text('p',`取得元：${feed.source.name} ／ 利用条件：${feed.source.license}`),text('p',`ダイヤ有効期間：${feed.validFrom}〜${feed.validThrough} ／ ${feed.mode==='realtime'?'運行データ':'時刻表のみ'}`));}
+ if(feed){const sourceLink=text('a',feed.source.name);sourceLink.href=feed.source.url;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';$('source-details').append(text('p',`取得元：${feed.source.name} ／ 利用条件：${feed.source.license}`),sourceLink,text('p',`ダイヤ有効期間：${feed.validFrom}〜${feed.validThrough} ／ ${feed.mode==='realtime'?'運行データ':'時刻表のみ'}`));}
 }
 function renderStations(){
  const query=$('station-search').value.trim();$('station-list').replaceChildren();
- const filtered=STATIONS.filter(s=>(!query||s.name.includes(query)||s.id.toLowerCase().includes(query.toLowerCase()))&&(filter==='all'||filter==='favorite'&&prefs.favoriteStations.includes(s.id)||s.line===filter));
+ const filtered=STATIONS.filter(s=>(!query||s.name.includes(query)||s.id.toLowerCase().includes(query.toLowerCase()))&&(filter==='all'||filter==='favorite'&&prefs.favoriteStations.includes(s.id)||s.lines.includes(filter)));
  for(const s of filtered){const row=text('div','','station-row'),b=text('button','','station-choice'),star=text('button',prefs.favoriteStations.includes(s.id)?'★':'☆','star');b.append(text('span',s.name),text('small',`${s.id} · ${s.line}`));b.onclick=()=>{const next=[...prefs.route];next[picking==='from'?0:1]=s.id;if(next[0]===next[1]){toast('出発駅と目的駅は別の駅を選んでください');return;}setRoute(next);$('station-dialog').close();};star.setAttribute('aria-label',`${s.name}をお気に入り駅${prefs.favoriteStations.includes(s.id)?'から削除':'に追加'}`);star.setAttribute('aria-pressed',String(prefs.favoriteStations.includes(s.id)));star.onclick=()=>{prefs.favoriteStations=prefs.favoriteStations.includes(s.id)?prefs.favoriteStations.filter(id=>id!==s.id):[...prefs.favoriteStations,s.id];persist();renderStations();};row.append(b,star);$('station-list').append(row);}
  if(!filtered.length)$('station-list').append(text('p','該当する駅がありません。'));
 }
